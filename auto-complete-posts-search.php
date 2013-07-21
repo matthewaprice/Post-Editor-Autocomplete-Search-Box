@@ -3,7 +3,7 @@
 Plugin Name: Autocomplete Post Searching
 Plugin URI: 
 Description: This plugin puts a search box on a post editor to quickly let you jump from one post to another
-Version: 0.1
+Version: 0.2
 Author: Matthew Price
 Author URI: http://www.matthewaprice.com
 License: GPL2
@@ -29,9 +29,13 @@ class MAPSearchBox {
 
 		$query  = "SELECT ID, post_title FROM {$wpdb->posts} WHERE post_type = %s";
 		$post_results = $wpdb->get_results( $wpdb->prepare( $query, $this->post_type ) );
-		foreach ( $post_results as $post_result ) {
-			$posts[] = array( 'label' => $post_result->post_title, 'value' => admin_url( 'post.php?post=' . $post_result->ID . '&action=edit' ) );
-		}	
+		if ( $post_results ) {
+			foreach ( $post_results as $post_result ) {
+				$posts[] = array( 'label' => $post_result->post_title, 'value' => admin_url( 'post.php?post=' . $post_result->ID . '&action=edit' ) );
+			}	
+		} else {
+			$posts[] = array( 'label' => 'Nothing Found', 'value' => '' );
+		}
 		return json_encode( $posts );
 		
 	}
