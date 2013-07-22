@@ -3,7 +3,7 @@
 Plugin Name: Autocomplete Post Searching
 Plugin URI: 
 Description: This plugin puts a search box on a post editor to quickly let you jump from one post to another
-Version: 0.2
+Version: 0.3
 Author: Matthew Price
 Author URI: http://www.matthewaprice.com
 License: GPL2
