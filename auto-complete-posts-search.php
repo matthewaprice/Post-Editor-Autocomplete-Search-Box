@@ -26,12 +26,20 @@ class MAPSearchBox {
 		global $wpdb;
 				
 		$posts = array();
-
-		$query  = "SELECT ID, post_title FROM {$wpdb->posts} WHERE post_type = %s";
+		
+		$query  = "SELECT ID, post_title FROM {$wpdb->posts} ";
+		if ( $this->post_type && isset( $_GET['post'] ) && isset( $_GET['action'] ) ) {
+			$query .= "WHERE post_type = %s ";
+		} else {
+			$query .= "WHERE post_type != 'revision' ";
+		}
+		
 		$post_results = $wpdb->get_results( $wpdb->prepare( $query, $this->post_type ) );
 		if ( $post_results ) {
 			foreach ( $post_results as $post_result ) {
-				$posts[] = array( 'label' => $post_result->post_title, 'value' => admin_url( 'post.php?post=' . $post_result->ID . '&action=edit' ) );
+				if ( $post_result->post_title ) {
+					$posts[] = array( 'label' => $post_result->post_title, 'value' => admin_url( 'post.php?post=' . $post_result->ID . '&action=edit' ) );
+				}
 			}	
 		} else {
 			$posts[] = array( 'label' => 'Nothing Found', 'value' => '' );
@@ -65,7 +73,7 @@ class MAPSearchBox {
 	}
 
 	public function addMetaBox( $page, $context ) {
-	
+		
 		add_meta_box( 'map-posts-search', 'Search', array( &$this, 'displaySearchBox' ), $page, 'side', 'high' );
 	
 	}		
