@@ -38,7 +38,7 @@ class MAPSearchBox {
 		if ( $post_results ) {
 			foreach ( $post_results as $post_result ) {
 				if ( $post_result->post_title ) {
-					$posts[] = array( 'label' => $post_result->post_title, 'value' => admin_url( 'post.php?post=' . $post_result->ID . '&action=edit' ) );
+					$posts[] = array( 'label' => $post_result->post_title . ' - ID = ' . $post_result->ID, 'value' => admin_url( 'post.php?post=' . $post_result->ID . '&action=edit' ) );
 				}
 			}	
 		} else {
